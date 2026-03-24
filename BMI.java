@@ -1,36 +1,52 @@
-import java.math.BigDecimal;
-import java.math.RoundingMode;
-import java.util.Scanner;
-public class BMI{
-    public static void main (String[] args){
-    System.out.println("BMI Calculator");
-    Scanner sc = new Scanner(System.in);
-   
-    System.out.print("\nInput your height in cm: ");
-    Double a = sc.nextDouble();
-    
-    System.out.print("Input your weight in kg: ");
-    Double b = sc.nextDouble(); 
-    
-    sc.close();
-    double c = a/100;
-    double d = b/(c * c);
-    BigDecimal f = new BigDecimal(d).setScale(2,RoundingMode.HALF_DOWN);
-    double z = f.doubleValue();
+import javax.swing.*;
+import java.awt.*;
 
-    if (z < 18.5){
-    System.out.println("You are Underweight, your BMI is: "+ z);
-        }
-    else if (z < 25){
-    System.out.println("You are normal, your BMI is "+ z);
+public class BMI extends JFrame {
+    private final JTextField height = new JTextField();
+    private final JTextField weight = new JTextField();
+    private final JLabel resultLabel = new JLabel("Enter Height, Weight and click Calculate");
 
+    public BMI() {
+        super("BMI Calculator");
+        setLayout(new BorderLayout(8, 8));
+
+        JPanel formPanel = new JPanel(new GridLayout(2, 2, 8, 8));
+        formPanel.add(new JLabel("Height (cm):"));
+        formPanel.add(height);
+        formPanel.add(new JLabel("Weight (kg):"));
+        formPanel.add(weight);
+        add(formPanel, BorderLayout.NORTH);
+
+        JButton calc = new JButton("Calculate");
+        calc.addActionListener(e -> calculateBMI());
+        JPanel buttonPanel = new JPanel();
+        buttonPanel.add(calc);
+        add(buttonPanel, BorderLayout.CENTER);
+        add(resultLabel, BorderLayout.SOUTH);
+
+        setDefaultCloseOperation(EXIT_ON_CLOSE);
+        setSize(320, 180);
+        setLocationRelativeTo(null);
+        setVisible(true);
+    }
+
+    private void calculateBMI() {
+        try {
+            double h = Double.parseDouble(height.getText()) / 100.0;
+            double w = Double.parseDouble(weight.getText());
+            double bmi = w / (h * h);
+            String result = bmi < 18.5 ? "Underweight"
+                    : bmi < 25 ? "Normal"
+                    : bmi < 30 ? "Overweight"
+                    : "Obese";
+            resultLabel.setText(String.format("        %s - BMI: %.2f", result, bmi));
+        } catch (Exception ex) {
+            resultLabel.setText("Please enter valid numbers.");
         }
-    else if (z < 30){
-    System.out.println("You are overweight, your BMI is "+ z);
     }
-    else{
-    System.out.println("You are Obesse, your BMI is "+ z);
-    }
+
+    public static void main(String[] args) {
+        SwingUtilities.invokeLater(BMI::new);
     }
 }
 
