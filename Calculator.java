@@ -89,9 +89,15 @@ void handleButton(String btn) {
         break;
     case "%":
         try {
-            double current = Double.parseDouble(expression);
-            current = current / 100;
-            expression = String.valueOf(current);
+            String t = expression.trim();
+            if (t.isEmpty()) break;
+
+            int lastSpace = t.lastIndexOf(' ');
+            String last = (lastSpace == -1) ? t : t.substring(lastSpace + 1);
+            if ("+-×÷".contains(last)) throw new IllegalArgumentException();
+            if (last.endsWith("%")) break; 
+            String prefix = (lastSpace == -1) ? "" : t.substring(0, lastSpace + 1);
+            expression = prefix + last + "%";
             display.setText(expression);
         } catch (Exception e) {
             display.setText("Error");
@@ -136,10 +142,10 @@ double evaluateExpression(String expr) {
     Deque<Double> values = new ArrayDeque<>();
     Deque<Character> ops = new ArrayDeque<>();
 
-    values.push(Double.parseDouble(t[0]));
+    values.push(parseNumber(t[0]));
     for (int i = 1; i < t.length; i += 2) {
         char op = t[i].charAt(0);
-        double nextNum = Double.parseDouble(t[i + 1]);
+        double nextNum = parseNumber(t[i + 1]);
 
         while (!ops.isEmpty() && precedence(ops.peek()) >= precedence(op)) {
             applyOp(values, ops.pop());
@@ -149,6 +155,13 @@ double evaluateExpression(String expr) {
     }
     while (!ops.isEmpty()) applyOp(values, ops.pop());
     return values.pop();
+}
+
+double parseNumber(String token) {
+    if (token.endsWith("%")) {
+        return Double.parseDouble(token.substring(0, token.length() - 1)) / 100;
+    }
+    return Double.parseDouble(token);
 }
 
 int precedence(char op) {
