@@ -4,16 +4,16 @@ import java.awt.*;
 public class BMI extends JFrame {
     private final JTextField height = new JTextField();
     private final JTextField weight = new JTextField();
-    private final JLabel resultLabel = new JLabel("Enter Height, Weight and click Calculate");
+    private final JLabel resultLabel = new JLabel("        Enter Height, Weight and click Calculate\n");
 
     public BMI() {
         super("BMI Calculator");
         setLayout(new BorderLayout(8, 8));
 
-        JPanel formPanel = new JPanel(new GridLayout(2, 2, 8, 8));
-        formPanel.add(new JLabel("Height (cm):"));
+        JPanel formPanel = new JPanel(new GridLayout(2, 4, 5, 8));
+        formPanel.add(new JLabel("      Height (cm):"));
         formPanel.add(height);
-        formPanel.add(new JLabel("Weight (kg):"));
+        formPanel.add(new JLabel("      Weight (kg):"));
         formPanel.add(weight);
         add(formPanel, BorderLayout.NORTH);
 
