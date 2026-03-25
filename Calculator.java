@@ -34,7 +34,7 @@ JPanel buttonPanel = new JPanel(new GridLayout(5, 4, 3, 3));
     String[] buttons = {
     "C","Del","%","History",
     "7","8","9","÷",
-    "4","5","6","*",
+    "4","5","6","×",
     "1","2","3","-",
     "0",".","=","+"
     };
@@ -99,9 +99,9 @@ void handleButton(String btn) {
         }
         break;
     default:
-        if ("+-*÷".contains(btn)) {
+        if ("+-×÷".contains(btn)) {
             String t = expression.trim();
-            if (!t.isEmpty() && "+-*÷".indexOf(t.charAt(t.length() - 1)) == -1) {
+            if (!t.isEmpty() && "+-×÷".indexOf(t.charAt(t.length() - 1)) == -1) {
                 expression += " " + btn + " ";
                 display.setText(expression);
             }
@@ -109,7 +109,7 @@ void handleButton(String btn) {
             if (!expression.isEmpty()) {
                 String t = expression.trim();
                 String last = t.substring(t.lastIndexOf(' ') + 1);
-                if ("+-*÷".contains(last)) expression += " 0.";
+                if ("+-×÷".contains(last)) expression += " 0.";
                 else if (!last.contains(".")) expression += ".";
                 display.setText(expression);
             }
@@ -152,7 +152,7 @@ double evaluateExpression(String expr) {
 }
 
 int precedence(char op) {
-    return (op == '*' || op == '÷') ? 2 : 1;
+    return (op == '×' || op == '÷') ? 2 : 1;
 }
 
 void applyOp(Deque<Double> values, char op) {
@@ -161,7 +161,7 @@ void applyOp(Deque<Double> values, char op) {
     switch (op) {
         case '+': values.push(a + b); break;
         case '-': values.push(a - b); break;
-        case '*': values.push(a * b); break;
+        case '×': values.push(a * b); break;
         case '÷': values.push(a / b); break;
     }
 }
