@@ -47,7 +47,7 @@ public static void main(String[] args) {
             result.append(nc+"\n");
 
             // Symbol check  
-            String sc = (Pattern.compile("[!@#$%^&*(),.?\":{}|<>]").matcher(pwd).find()) ? "✔ Has symbol" : "✘ No symbol";
+            String sc = (Pattern.compile("^\\w\\s").matcher(pwd).find()) ? "✔ Has symbol" : "✘ No symbol";
             result.append(sc+"\n");
             
             resultArea.setText(result.toString());     
