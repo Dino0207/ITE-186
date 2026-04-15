@@ -4,16 +4,15 @@ import java.awt.*;
 public class BMI extends JFrame {
     private final JTextField height = new JTextField();
     private final JTextField weight = new JTextField();
-    private final JLabel resultLabel = new JLabel("        Enter Height, Weight and click Calculate\n");
 
     public BMI() {
         super("BMI Calculator");
         setLayout(new BorderLayout(8, 8));
 
         JPanel formPanel = new JPanel(new GridLayout(2, 4, 5, 8));
-        formPanel.add(new JLabel("      Height (cm):"));
+        formPanel.add(new JLabel("  Height (cm):"));
         formPanel.add(height);
-        formPanel.add(new JLabel("      Weight (kg):"));
+        formPanel.add(new JLabel("  Weight (kg):"));
         formPanel.add(weight);
         add(formPanel, BorderLayout.NORTH);
 
@@ -22,12 +21,12 @@ public class BMI extends JFrame {
         JPanel buttonPanel = new JPanel();
         buttonPanel.add(calc);
         add(buttonPanel, BorderLayout.CENTER);
-        add(resultLabel, BorderLayout.SOUTH);
 
         setDefaultCloseOperation(EXIT_ON_CLOSE);
-        setSize(320, 180);
+        setSize(250, 140);
         setLocationRelativeTo(null);
         setVisible(true);
+        setResizable(false);
     }
 
     private void calculateBMI() {
@@ -39,9 +38,19 @@ public class BMI extends JFrame {
                     : bmi < 25 ? "Normal"
                     : bmi < 30 ? "Overweight"
                     : "Obese";
-            resultLabel.setText(String.format("        %s - BMI: %.2f", result, bmi));
+            JOptionPane.showMessageDialog(
+                    this,
+                    String.format("%s - BMI: %.2f", result, bmi),
+                    "BMI Result",
+                    JOptionPane.INFORMATION_MESSAGE
+            );
         } catch (Exception ex) {
-            resultLabel.setText("Please enter valid numbers.");
+            JOptionPane.showMessageDialog(
+                    this,
+                    "Please enter valid numbers.",
+                    "Input Error",
+                    JOptionPane.ERROR_MESSAGE
+            );
         }
     }
 
